@@ -10,6 +10,10 @@ import com.google.common.base.Joiner;
 
 public class InputFieldValidatorUtils {
 
+    public static void validateAppId(String str) {
+        validateStringLength(str, "appId", 4, 16);
+    }
+    
     public static void validateAppKey(String str) {
         validateStringLength(str, "appKey", 16, 16);
     }

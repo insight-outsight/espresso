@@ -11,6 +11,7 @@ import com.fasterxml.jackson.databind.DeserializationFeature;
 import com.fasterxml.jackson.databind.JsonMappingException;
 import com.fasterxml.jackson.databind.MapperFeature;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.fasterxml.jackson.databind.PropertyNamingStrategy;
 import com.fasterxml.jackson.databind.SerializationFeature;
 
 public class JacksonJSONUtils {
@@ -43,6 +44,9 @@ public class JacksonJSONUtils {
         objectMapper.getDeserializationConfig().with(simpleDateFormat)
                 .with(MapperFeature.USE_ANNOTATIONS)
                 .without(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES);
+        
+        //驼峰和下划线互转
+        objectMapper.setPropertyNamingStrategy(PropertyNamingStrategy.SNAKE_CASE);
 
     }
 
