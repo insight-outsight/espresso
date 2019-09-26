@@ -42,29 +42,28 @@ public class DateUtils {
 
     public static void main(String[] args) throws Exception {
 
-        
-        System.out.println(getStandardDateFormat().format(new Date()));
-        System.out.println(formatToStandardDateString(System
-                .currentTimeMillis()));
-        System.out.println(formatToCompactStyleDateString(System
-                .currentTimeMillis()));
-        System.out.println(getStandardTimeFormat().format(new Date()));
-        System.out.println(formatToStandardTimeString(new Date()));
-        System.out.println(formatToStandardTimeString(System
-                .currentTimeMillis()));
-        
-        System.out.println(formatToStandardTimeString(parseStandardTimeString("2018-05-10 09:25:00")));
-        System.out.println(currentDateNumberFormat());
-        System.out.println(formatToStandardTimeString(parseDateNumberFormat(20191210)));
-        System.out.println(isTwoDaysContinuous(20180131,20180201));
-        System.out.println(formatToStandardTimeStringNow());
-        System.out.println(formatToStandardDateStringNow());
-        System.out.println(System.currentTimeMillis());
-        System.out.println(remainSecondsToday());
-        System.out.println(yesterday());
-        System.out.println(formatToStandardDateString(yesterday()));
-        System.out.println(tomorrow());
-        System.out.println(formatToStandardDateString(tomorrow()));
+//        System.out.println(getStandardDateFormat().format(new Date()));
+//        System.out.println(formatToStandardDateString(System
+//                .currentTimeMillis()));
+//        System.out.println(formatToCompactStyleDateString(System
+//                .currentTimeMillis()));
+//        System.out.println(getStandardTimeFormat().format(new Date()));
+//        System.out.println(formatToStandardTimeString(new Date()));
+//        System.out.println(formatToStandardTimeString(System
+//                .currentTimeMillis()));
+//        
+//        System.out.println(formatToStandardTimeString(parseStandardTimeString("2018-05-10 09:25:00")));
+//        System.out.println(currentDateNumberFormat());
+//        System.out.println(formatToStandardTimeString(parseDateNumberFormat(20191210)));
+//        System.out.println(isTwoDaysContinuous(20180131,20180201));
+//        System.out.println(formatToStandardTimeStringNow());
+//        System.out.println(formatToStandardDateStringNow());
+//        System.out.println(System.currentTimeMillis());
+//        System.out.println(remainSecondsToday());
+//        System.out.println(yesterday());
+//        System.out.println(formatToStandardDateString(yesterday()));
+//        System.out.println(tomorrow());
+//        System.out.println(formatToStandardDateString(tomorrow()));
 //      System.out.println(isStandardDateStr(null));
 //      System.out.println(isStandardDateStr(""));
 //      System.out.println(isStandardDateStr("2019-05-24"));
@@ -74,21 +73,57 @@ public class DateUtils {
 //      System.out.println(isStandardDateStr("2019-05-24 12-25-25"));
 //      System.out.println(isStandardDateStr("2019-05-24 12:25:25"));
 //      System.out.println(isStandardDateStr("2019-05-24 12:03:02"));
-//      System.out.println(isStandardTimeStr(null));
-//      System.out.println(isStandardTimeStr(""));
-//      System.out.println(isStandardTimeStr("2019-05-24"));
-//      System.out.println(isStandardTimeStr("2020-02-29"));
-//      System.out.println(isStandardTimeStr("2019-5-24"));
-//      System.out.println(isStandardTimeStr("2019-05-24 12"));
-//      System.out.println(isStandardTimeStr("2019-05-24 12-25-25"));
-//      System.out.println(isStandardTimeStr("2019-05-24 12:25:25"));
-//      System.out.println(isStandardTimeStr("2019-05-24 12:75:25"));
-//      System.out.println(isStandardTimeStr("2019-05-32 12:25:25"));
-//      System.out.println(isStandardTimeStr("2019-15-24 12:03:02"));
-//      System.out.println(isStandardTimeStr("2019-05-24 101:03:02"));
-//      System.out.println(isStandardTimeStr("2019-5-24 22:03:02"));
-//      System.out.println(isStandardTimeStr("2019-05-4 11:03:02"));
-//      System.out.println(isStandardTimeStr("2019-09-26 17:53:00"));
+        long st = System.currentTimeMillis();
+        System.out.println(isStandardTimeStr(null));
+      System.out.println(System.currentTimeMillis()-st);
+      st = System.currentTimeMillis();
+      System.out.println(isStandardTimeStr(""));
+      System.out.println(System.currentTimeMillis()-st);
+      st = System.currentTimeMillis();
+      System.out.println(isStandardTimeStr("2019-05-24"));
+      System.out.println(System.currentTimeMillis()-st);
+      st = System.currentTimeMillis();
+      System.out.println(isStandardTimeStr("2020-02-29"));
+      System.out.println(System.currentTimeMillis()-st);
+      st = System.currentTimeMillis();
+      System.out.println(isStandardTimeStr("2019-5-24"));
+      System.out.println(System.currentTimeMillis()-st);
+      st = System.currentTimeMillis();
+      System.out.println(isStandardTimeStr("2019-05-24 12"));
+      System.out.println(System.currentTimeMillis()-st);//cost 63ms，因为
+      //DateTimeFormatter.parseDateTime() Line 945         
+      //throw new IllegalArgumentException(FormatUtils.createErrorMessage(text, newPos));
+      //FormatUtils类首次使用被加载耗时较长？应该是的
+      st = System.currentTimeMillis();
+      System.out.println(isStandardTimeStr("2019-05-24 12:89:50"));
+      System.out.println(System.currentTimeMillis()-st);
+      st = System.currentTimeMillis();
+      System.out.println(isStandardTimeStr("2019-05-24 12-26-25"));
+      System.out.println(System.currentTimeMillis()-st);
+      st = System.currentTimeMillis();
+      System.out.println(isStandardTimeStr("2019-05-24 12:25:25"));
+      System.out.println(System.currentTimeMillis()-st);
+      st = System.currentTimeMillis();
+      System.out.println(isStandardTimeStr("2019-05-24 12:75:25"));
+      System.out.println(System.currentTimeMillis()-st);
+      st = System.currentTimeMillis();
+      System.out.println(isStandardTimeStr("2019-05-32 12:25:25"));
+      System.out.println(System.currentTimeMillis()-st);
+      st = System.currentTimeMillis();
+      System.out.println(isStandardTimeStr("2019-15-24 12:03:02"));
+      System.out.println(System.currentTimeMillis()-st);
+      st = System.currentTimeMillis();
+      System.out.println(isStandardTimeStr("2019-05-24 101:03:02"));
+      System.out.println(System.currentTimeMillis()-st);
+      st = System.currentTimeMillis();
+      System.out.println(isStandardTimeStr("2019-5-24 22:03:02"));
+      System.out.println(System.currentTimeMillis()-st);
+      st = System.currentTimeMillis();
+      System.out.println(isStandardTimeStr("2019-05-4 11:03:02"));
+      System.out.println(System.currentTimeMillis()-st);
+      st = System.currentTimeMillis();
+      System.out.println(isStandardTimeStr("2019-09-26 17:53:00"));
+      System.out.println(System.currentTimeMillis()-st);
     }
 
     public static FastDateFormat getStandardDateFormat() {
@@ -199,8 +234,8 @@ public class DateUtils {
             DateTime.parse(str,format);
 //            System.out.println(d.toLocalDateTime());
         } catch (Exception e) {
+//            e.printStackTrace();
             LOG.error("parseDateTime Err",e);
-            e.printStackTrace();
             return false;
         }
         return true;
