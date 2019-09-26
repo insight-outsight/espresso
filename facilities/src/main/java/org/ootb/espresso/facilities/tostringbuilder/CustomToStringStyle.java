@@ -1,4 +1,4 @@
-package org.ootb.espresso.facilities.base;
+package org.ootb.espresso.facilities.tostringbuilder;
 
 import java.io.Serializable;
 

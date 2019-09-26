@@ -24,7 +24,11 @@ public class InputFieldValidatorUtils {
 
     public static void validateUid(String str) {
         validateStringLength(str, "uid", 1, 11);
-        Long.parseLong(str);
+        long uidLong = Long.parseLong(str);
+        if(uidLong < 1L) {
+            throw new IllegalArgumentException("field 'uid' value '"
+                    + uidLong +"' < 1");
+        }
     }
 
     public static void validateNonce(String str) {

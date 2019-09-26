@@ -7,16 +7,42 @@ import java.time.ZonedDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.Date;
 
+import org.apache.commons.lang3.StringUtils;
 import org.apache.commons.lang3.time.FastDateFormat;
+import org.joda.time.DateTime;
+import org.joda.time.format.DateTimeFormat;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
+/**
+ * 
+ *    SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+      try {
+          System.out.println(sdf.format(sdf.parse("2017-13-01 99:01:05")));//正常输出 2018-01-05 03:01:05
+          sdf.setLenient(false);
+          System.out.println(sdf.parse("2017-12-01 9:01:05"));//正常输出 Fri Dec 01 09:01:05 CST 2017
+          System.out.println(sdf.parse("2017-13-01 99:01:05"));//java.text.ParseException: Unparseable date: "2017-13-01 99:01:05"
+      } catch (ParseException e) {
+          e.printStackTrace();
+      }
+      SimpleDateFormat不是线程安全，FastDateFormat是线程安全，但不支持设置setLenient()模式，joda-time类库的
+      org.joda.time.format.DateTimeFormat支持Lenient模式，用于校验字符串日期格式。
+      
+ * @author xuzhengchao
+ *
+ */
 public class DateUtils {
 
-    private static final FastDateFormat standardDateFormat = FastDateFormat.getInstance("yyyy-MM-dd");
+    private static Logger LOG = LoggerFactory.getLogger(DateUtils.class);
+    private static final String standardDateFormatStr = "yyyy-MM-dd";
+    private static final FastDateFormat standardDateFormat = FastDateFormat.getInstance(standardDateFormatStr);
     private static final FastDateFormat compactStyleDateFormat = FastDateFormat.getInstance("yyyyMMdd");
-    private static final FastDateFormat standardTimeFormat = FastDateFormat.getInstance("yyyy-MM-dd HH:mm:ss");
+    private static final String standardTimeFormatStr = "yyyy-MM-dd HH:mm:ss";
+    private static final FastDateFormat standardTimeFormat = FastDateFormat.getInstance(standardTimeFormatStr);
 
     public static void main(String[] args) throws Exception {
 
+        
         System.out.println(getStandardDateFormat().format(new Date()));
         System.out.println(formatToStandardDateString(System
                 .currentTimeMillis()));
@@ -39,7 +65,30 @@ public class DateUtils {
         System.out.println(formatToStandardDateString(yesterday()));
         System.out.println(tomorrow());
         System.out.println(formatToStandardDateString(tomorrow()));
-
+//      System.out.println(isStandardDateStr(null));
+//      System.out.println(isStandardDateStr(""));
+//      System.out.println(isStandardDateStr("2019-05-24"));
+//      System.out.println(isStandardDateStr("2020-02-29"));
+//      System.out.println(isStandardDateStr("2019-5-24"));
+//      System.out.println(isStandardDateStr("2019-05-24 12"));
+//      System.out.println(isStandardDateStr("2019-05-24 12-25-25"));
+//      System.out.println(isStandardDateStr("2019-05-24 12:25:25"));
+//      System.out.println(isStandardDateStr("2019-05-24 12:03:02"));
+//      System.out.println(isStandardTimeStr(null));
+//      System.out.println(isStandardTimeStr(""));
+//      System.out.println(isStandardTimeStr("2019-05-24"));
+//      System.out.println(isStandardTimeStr("2020-02-29"));
+//      System.out.println(isStandardTimeStr("2019-5-24"));
+//      System.out.println(isStandardTimeStr("2019-05-24 12"));
+//      System.out.println(isStandardTimeStr("2019-05-24 12-25-25"));
+//      System.out.println(isStandardTimeStr("2019-05-24 12:25:25"));
+//      System.out.println(isStandardTimeStr("2019-05-24 12:75:25"));
+//      System.out.println(isStandardTimeStr("2019-05-32 12:25:25"));
+//      System.out.println(isStandardTimeStr("2019-15-24 12:03:02"));
+//      System.out.println(isStandardTimeStr("2019-05-24 101:03:02"));
+//      System.out.println(isStandardTimeStr("2019-5-24 22:03:02"));
+//      System.out.println(isStandardTimeStr("2019-05-4 11:03:02"));
+//      System.out.println(isStandardTimeStr("2019-09-26 17:53:00"));
     }
 
     public static FastDateFormat getStandardDateFormat() {
@@ -117,6 +166,44 @@ public class DateUtils {
     public static Date yesterday() throws Exception {
         LocalDate localDate = LocalDate.now();
         return standardDateFormat.parse(localDate.plusDays(-1).toString());
+    }
+    
+    public static boolean isStandardDateStr(String str) {
+        if(StringUtils.isBlank(str)) {
+            return false;
+        }
+        if(str.length() != standardDateFormatStr.length()) {
+            return false;
+        }
+        org.joda.time.format.DateTimeFormatter format = DateTimeFormat.forPattern(standardDateFormatStr); 
+        try {
+            format.parseDateTime(str);
+        } catch (Exception e) {
+            LOG.error("parseDateTime Err",e);
+            return false;
+        }
+        return true;
+    }
+    
+    public static boolean isStandardTimeStr(String str) {
+        if(StringUtils.isBlank(str)) {
+            return false;
+        }
+        if(str.length() != standardTimeFormatStr.length()) {
+            return false;
+        }
+        org.joda.time.format.DateTimeFormatter format = DateTimeFormat.forPattern(standardTimeFormatStr); 
+        try {
+//            format.parseDateTime(str);
+//            DateTime d =
+            DateTime.parse(str,format);
+//            System.out.println(d.toLocalDateTime());
+        } catch (Exception e) {
+            LOG.error("parseDateTime Err",e);
+            e.printStackTrace();
+            return false;
+        }
+        return true;
     }
     
 }
