@@ -214,7 +214,7 @@ public class DateUtils {
         try {
             format.parseDateTime(str);
         } catch (Exception e) {
-            LOG.error("parseDateTime Err",e);
+            LOG.error("parseDate Err",e);
             return false;
         }
         return true;
