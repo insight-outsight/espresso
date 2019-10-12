@@ -235,7 +235,7 @@ public class DateUtils {
 //            System.out.println(d.toLocalDateTime());
         } catch (Exception e) {
 //            e.printStackTrace();
-            LOG.error("parseDateTime Err",e);
+            LOG.error("parseTime Err",e);
             return false;
         }
         return true;
