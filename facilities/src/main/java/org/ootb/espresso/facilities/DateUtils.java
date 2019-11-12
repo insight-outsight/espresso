@@ -157,7 +157,7 @@ public class DateUtils {
         return true;
     }
     
-    public static Date getZeroSecondOfCurrentDate() {
+    public static Date getZeroMilliSecondOfCurrentDate() {
         Calendar calendar = Calendar.getInstance();
 //        calendar.setTime(new Date());
         calendar.set(Calendar.HOUR_OF_DAY, 0);//set hour to 00:00
@@ -168,7 +168,13 @@ public class DateUtils {
         return calendar.getTime();
     }
 
-    public static long getZeroSecondOfCurrentDateV2() {
+    @Deprecated
+    /**
+     * 有严重问题：0-8点取得的还是前一天零时，
+     * 勿使用！
+     * @return
+     */
+    public static long getZeroMilliSecondOfCurrentDateV2() {
         long current = System.currentTimeMillis();
         System.out.println("0-->"+current);
         System.out.println("-1-->"+(8/2*16));
@@ -179,7 +185,7 @@ public class DateUtils {
         return zeroSecondOfCurrentDate;
     }
 
-    public static long getZeroSecondOfCurrentDateV3() {
+    public static long getZeroMilliSecondOfCurrentDateV3() {
         long current = System.currentTimeMillis();
         long zeroSecondOfCurrentDate = current - (current + TimeZone.getDefault().getRawOffset()) % (1000 * 3600 * 24);
         return zeroSecondOfCurrentDate;
@@ -276,23 +282,23 @@ public class DateUtils {
 
         System.out.println(System.currentTimeMillis());
         System.out.println(formatToStandardTimeStringNow());
-        System.out.println(getZeroSecondOfCurrentDate());
-        System.out.println(formatToStandardTimeString(getZeroSecondOfCurrentDate()));
+        System.out.println(getZeroMilliSecondOfCurrentDateV2());
+        System.out.println(formatToStandardTimeString(getZeroMilliSecondOfCurrentDateV2()));
         
         System.out.println("----------g1-----------");
         st = System.currentTimeMillis();
-        Date zeroSecondDate = getZeroSecondOfCurrentDate();
+        Date zeroSecondDate = getZeroMilliSecondOfCurrentDate();
         System.out.println("cost:"+(System.currentTimeMillis()-st));
         System.out.println(zeroSecondDate.toLocaleString());
         System.out.println(zeroSecondDate.getTime());
         System.out.println("----------g2-----------");
         st = System.currentTimeMillis();
-        long zeroSecond = getZeroSecondOfCurrentDateV2();
+        long zeroSecond = getZeroMilliSecondOfCurrentDateV2();
         System.out.println("cost:"+(System.currentTimeMillis()-st));
         System.out.println(zeroSecond);
         System.out.println("----------g3-----------");
         st = System.currentTimeMillis();
-        zeroSecond = getZeroSecondOfCurrentDateV3();
+        zeroSecond = getZeroMilliSecondOfCurrentDateV3();
         System.out.println("cost:"+(System.currentTimeMillis()-st));
         System.out.println(zeroSecond);
         System.out.println("---------------------");
