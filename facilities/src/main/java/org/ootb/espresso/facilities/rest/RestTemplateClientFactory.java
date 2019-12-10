@@ -11,6 +11,7 @@ import org.apache.http.HttpHeaders;
 import org.apache.http.HttpHost;
 import org.apache.http.HttpResponse;
 import org.apache.http.client.HttpClient;
+import org.apache.http.client.config.CookieSpecs;
 import org.apache.http.client.config.RequestConfig;
 import org.apache.http.client.protocol.HttpClientContext;
 import org.apache.http.config.ConnectionConfig;
@@ -52,10 +53,21 @@ public class RestTemplateClientFactory {
     }
     
     public static RestTemplate simpleRestTemplateClient(int connectTimeout,int socketTimeout,int poolSize,int maxPerRoute) {
+        return simpleRestTemplateClient(connectTimeout,socketTimeout,poolSize,maxPerRoute,true);
+    }
+    
+    public static RestTemplate simpleRestTemplateClient(int connectTimeout,int socketTimeout,int poolSize,int maxPerRoute,boolean ignoreCookie) {
 
+        String cookieSpec = CookieSpecs.IGNORE_COOKIES;
+        
+        if(!ignoreCookie) {
+            cookieSpec = CookieSpecs.DEFAULT;
+        }
+        
         final RequestConfig requestConfig = RequestConfig.custom()
                 .setConnectTimeout(connectTimeout).setSocketTimeout(socketTimeout)
                 .setConnectionRequestTimeout(socketTimeout)
+                .setCookieSpec(cookieSpec)
                 .setStaleConnectionCheckEnabled(false).build();
 
         final ConnectionConfig connectionConfig = ConnectionConfig
@@ -78,7 +90,7 @@ public class RestTemplateClientFactory {
         poolingHttpClientConnectionManager.setMaxTotal(poolSize);
         // 默认每个route最大连接数
         poolingHttpClientConnectionManager.setDefaultMaxPerRoute(maxPerRoute);
-
+        
         List<Header> headers = new ArrayList<>();
         headers.add(new BasicHeader(HttpHeaders.CONTENT_TYPE, "application/json"));
 //        headers.add(new BasicHeader("User-Agent", "Mozilla/5.0 (Windows NT 6.1) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/31.0.1650.16 Safari/537.36"));
@@ -92,6 +104,33 @@ public class RestTemplateClientFactory {
             .setDefaultRequestConfig(requestConfig)
             .setUserAgent("ApacheHttpClient-Based")
             .setConnectionManager(poolingHttpClientConnectionManager)
+            //通过设置ConnectionKeepAliveStrategy来关闭空闲连接
+            .setKeepAliveStrategy(new ConnectionKeepAliveStrategy() {
+                public long getKeepAliveDuration(HttpResponse response, HttpContext context) {
+                    // Honor 'keep-alive' header
+                    HeaderElementIterator it = new BasicHeaderElementIterator(response.headerIterator(HTTP.CONN_KEEP_ALIVE));
+                    while (it.hasNext()) {
+                        HeaderElement he = it.nextElement();
+                        String param = he.getName();
+                        String value = he.getValue();
+                        if (value != null && param.equalsIgnoreCase("timeout")) {
+                            try {
+                                return Long.parseLong(value) * 1000;
+                            } catch(NumberFormatException ignore) {
+                            }
+                        }
+                    }
+                    HttpHost target = (HttpHost) context.getAttribute(HttpClientContext.HTTP_TARGET_HOST);
+                    if ("www.naughty-server.com".equalsIgnoreCase(target.getHostName())) {
+                        // Keep alive for 5 seconds only
+                        return 5 * 1000;
+                    } else {
+                        // otherwise keep alive for 65 seconds
+                        return 65 * 1000;
+                    }
+                }
+            })/*这个例子指明在访问www.naughty-server.com和其他未知服务器时的keeplive为一个固定值，如
+                果服务器返回keeplive过期时间，则通过服务器告诉客户端该连接大概什么时候过期（注意这不是一个标准的http协议，不是所有服务器都支持）。*/
             .build();
         
         
