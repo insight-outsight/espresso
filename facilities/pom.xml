@@ -47,17 +47,17 @@
         <dependency>
             <groupId>com.fasterxml.jackson.core</groupId>
             <artifactId>jackson-core</artifactId>
-            <version>2.9.5</version>
+            <version>${jackson.json.version}</version>
         </dependency>
         <dependency>
             <groupId>com.fasterxml.jackson.core</groupId>
             <artifactId>jackson-databind</artifactId>
-            <version>2.9.5</version>
+            <version>${jackson.json.version}</version>
         </dependency>
         <dependency>
             <groupId>com.fasterxml.jackson.core</groupId>
             <artifactId>jackson-annotations</artifactId>
-            <version>2.9.5</version>
+            <version>${jackson.json.version}</version>
         </dependency>
 
         <dependency>
@@ -115,7 +115,7 @@
         </plugins>
     </build>
 
-    <distributionManagement>
+<!--     <distributionManagement>
         <snapshotRepository>
             <id>xxx-snapshots</id>
             <url>https://nexus.xxx.com/repository/xxx-snapshots/</url>
@@ -124,6 +124,6 @@
             <id>xxx-releases</id>
             <url>https://nexus.xxx.com/repository/xxx-releases/</url>
         </repository>
-    </distributionManagement>
+    </distributionManagement> -->
 
 </project>
