@@ -27,6 +27,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.http.MediaType;
 import org.springframework.http.client.HttpComponentsClientHttpRequestFactory;
+import org.springframework.http.client.SimpleClientHttpRequestFactory;
 import org.springframework.http.converter.FormHttpMessageConverter;
 import org.springframework.http.converter.HttpMessageConverter;
 import org.springframework.http.converter.StringHttpMessageConverter;
@@ -48,15 +49,28 @@ public class RestTemplateClientFactory {
     private final static int defaultPoolSize = 300;
     private final static int defaultMaxPerRouteSize = 20;
     
-    public static RestTemplate simpleRestTemplateClient() {
-        return simpleRestTemplateClient(defaultConnectTimeout,defaultSocketTimeout,defaultPoolSize,defaultMaxPerRouteSize);
+    /**
+     * 未测试
+     * @param connectTimeout
+     * @param socketTimeout
+     * @return
+     */
+    public static RestTemplate simpleRestTemplateClient(int connectTimeout,int socketTimeout) {
+    	SimpleClientHttpRequestFactory factory = new SimpleClientHttpRequestFactory();
+        factory.setConnectTimeout(connectTimeout);
+        factory.setReadTimeout(socketTimeout);
+        return new RestTemplate(factory);
     }
     
-    public static RestTemplate simpleRestTemplateClient(int connectTimeout,int socketTimeout,int poolSize,int maxPerRoute) {
-        return simpleRestTemplateClient(connectTimeout,socketTimeout,poolSize,maxPerRoute,true);
+    public static RestTemplate pooledHttpComponentsRestTemplateClient() {
+        return pooledHttpComponentsRestTemplateClient(defaultConnectTimeout,defaultSocketTimeout,defaultPoolSize,defaultMaxPerRouteSize);
     }
     
-    public static RestTemplate simpleRestTemplateClient(int connectTimeout,int socketTimeout,int poolSize,int maxPerRoute,boolean ignoreCookie) {
+    public static RestTemplate pooledHttpComponentsRestTemplateClient(int connectTimeout,int socketTimeout,int poolSize,int maxPerRoute) {
+        return pooledHttpComponentsRestTemplateClient(connectTimeout,socketTimeout,poolSize,maxPerRoute,true);
+    }
+    
+    public static RestTemplate pooledHttpComponentsRestTemplateClient(int connectTimeout,int socketTimeout,int poolSize,int maxPerRoute,boolean ignoreCookie) {
 
         String cookieSpec = CookieSpecs.IGNORE_COOKIES;
         
