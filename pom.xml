@@ -12,6 +12,7 @@
     <modules>
         <module>spring-boot-starter-parent-out-of-the-box</module>
         <module>facilities</module>
+        <module>spring-cloud-starter-parent-out-of-the-box</module>
     </modules>
 
     <properties>
@@ -30,5 +31,16 @@
         <maven.source.plugin.version>3.0.1</maven.source.plugin.version>
         <jackson.json.version>2.10.3</jackson.json.version>
     </properties>
-        
+    <distributionManagement>
+        <repository>
+            <id>insight-outsight packages</id>
+            <name>insight-outsight Apache Maven Packages</name>
+            <url>https://maven.pkg.github.com/insight-outsight/espresso/</url>
+        </repository>
+        <snapshotRepository>
+            <id>insight-outsight packages</id>
+            <name>insight-outsight Apache Maven Packages</name>
+            <url>https://maven.pkg.github.com/insight-outsight/espresso/</url>
+        </snapshotRepository>
+    </distributionManagement>
 </project>
