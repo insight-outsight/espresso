@@ -1,0 +1,12 @@
+app:
+  id: phoenix-configuration
+
+apollo:
+  bootstrap:
+    namespaces: application,server.datasource.stat,server.athena.platform
+    enabled: false
+
+management:
+  endpoint:
+    health:
+      show-details: always

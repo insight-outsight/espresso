@@ -1,0 +1,2 @@
+ootb.web.json.datetime.enabled: true
+ootb.web.json.datetime.pattern: "yyyy-MM-dd HH:mm:ss"

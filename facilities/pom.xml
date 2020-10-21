@@ -121,15 +121,4 @@
         </plugins>
     </build>
 
-<!--     <distributionManagement>
-        <snapshotRepository>
-            <id>xxx-snapshots</id>
-            <url>https://nexus.xxx.com/repository/xxx-snapshots/</url>
-        </snapshotRepository>
-        <repository>
-            <id>xxx-releases</id>
-            <url>https://nexus.xxx.com/repository/xxx-releases/</url>
-        </repository>
-    </distributionManagement> -->
-
 </project>

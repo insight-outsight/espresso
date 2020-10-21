@@ -1,0 +1,23 @@
+server:
+  port: 8901
+  tomcat:
+    max-threads: 2000
+
+consul:
+  host: 39.100.73.91
+  port: 8500
+
+spring:
+  datasource:
+    driverClassName: com.mysql.jdbc.Driver
+    url: jdbc:mysql://3.115.153.122:3306/rc_video_chat?useSSL=false
+    type: com.alibaba.druid.pool.DruidDataSource
+    username: testdb
+    password: mofnuWs2YZvLMed&12VKmVFr
+  cloud:
+    consul:
+      host: ${consul.host}
+      port: ${consul.port}
+      enabled: false
+
+logging.level.com.rcplatform: debug
