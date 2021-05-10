@@ -2,6 +2,9 @@ package org.ootb.espresso.springcloud.infrastructure;
 
 import java.util.Date;
 
+import org.ootb.espresso.springcloud.infrastructure.enums.AppIdEnum;
+import org.ootb.espresso.springcloud.infrastructure.enums.GenderEnum;
+
 
 public class CustomJackson2TestVO {
     
@@ -9,9 +12,16 @@ public class CustomJackson2TestVO {
 
     private Date date;
     
+    private AppIdEnum appId;
+    
     private GenderEnum gender;
 
     public CustomJackson2TestVO() {
+    }
+    
+    public CustomJackson2TestVO(AppIdEnum appId, GenderEnum gender) {
+        this.appId = appId;
+        this.gender = gender;
     }
 
     public CustomJackson2TestVO(String name, Date date, GenderEnum gender) {
@@ -34,6 +44,14 @@ public class CustomJackson2TestVO {
 
     public void setDate(Date date) {
         this.date = date;
+    }
+
+    public AppIdEnum getAppId() {
+        return appId;
+    }
+
+    public void setAppId(AppIdEnum appId) {
+        this.appId = appId;
     }
 
     public GenderEnum getGender() {

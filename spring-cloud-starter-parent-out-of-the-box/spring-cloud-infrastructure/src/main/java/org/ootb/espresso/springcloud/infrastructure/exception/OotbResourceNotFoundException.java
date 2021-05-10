@@ -1,4 +1,4 @@
-package org.ootb.espresso.springcloud.infrastructure;
+package org.ootb.espresso.springcloud.infrastructure.exception;
 
 public class OotbResourceNotFoundException extends OotbFatalBusinessException {
     /**

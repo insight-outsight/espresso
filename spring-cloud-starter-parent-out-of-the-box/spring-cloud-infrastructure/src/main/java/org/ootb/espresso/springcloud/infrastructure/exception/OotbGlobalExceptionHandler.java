@@ -1,5 +1,6 @@
-package org.ootb.espresso.springcloud.infrastructure;
+package org.ootb.espresso.springcloud.infrastructure.exception;
 
+import org.ootb.espresso.springcloud.infrastructure.Response;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.core.annotation.Order;
@@ -13,7 +14,7 @@ import static org.springframework.http.HttpStatus.*;
 
 @RestControllerAdvice
 @Order
-class OotbGlobalExceptionHandler {
+public class OotbGlobalExceptionHandler {
     private static final Logger LOG = LoggerFactory.getLogger(MethodHandles.lookup().lookupClass());
 
     @ExceptionHandler(IllegalArgumentException.class)

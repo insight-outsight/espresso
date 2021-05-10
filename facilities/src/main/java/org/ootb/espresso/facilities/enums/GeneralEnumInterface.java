@@ -1,13 +1,15 @@
-package org.ootb.espresso.springcloud.infrastructure;
+package org.ootb.espresso.facilities.enums;
 
 import java.util.EnumSet;
 import java.util.Objects;
 import java.util.Set;
 import java.util.stream.Collectors;
 
+import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 import com.fasterxml.jackson.databind.annotation.JsonSerialize;
 
-@JsonSerialize(using = GeneralEnumSerializer.class)  
+@JsonSerialize(using = GeneralEnumSerializer.class)
+@JsonDeserialize(using = GeneralEnumDeserializer.class)
 public interface GeneralEnumInterface {
 
     int getCode();
@@ -15,6 +17,12 @@ public interface GeneralEnumInterface {
     String getDescription();
 
     static <E extends Enum<E> & GeneralEnumInterface> E fromCode(Class<E> clazz, int code) {
+//      for (E type : clazz.getEnumConstants()) {
+//      if (code == type.getCode()) {
+//          return type;
+//      }
+//  }
+//  throw new IllegalArgumentException("Invalid enum type supplied");
         EnumSet<E> all = EnumSet.allOf(clazz);
         return all.stream().filter(e -> e.getCode() == code).findFirst().orElse(null);
     }

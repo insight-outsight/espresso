@@ -1,9 +1,9 @@
-package org.ootb.espresso.springcloud.infrastructure;
+package org.ootb.espresso.springcloud.common.enums;
 
-import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
+import org.ootb.espresso.facilities.enums.GeneralEnumInterface;
+
 import com.google.common.collect.Sets;
 
-@JsonDeserialize(using = GenderEnum.GenderEnumDeserializer.class)
 public enum GenderEnum implements GeneralEnumInterface {
 
     MALE(23, "男"),
@@ -28,14 +28,6 @@ public enum GenderEnum implements GeneralEnumInterface {
     @Override
     public String toString() {
         return this.name() + "[code:" + this.code + ",description:" + desc + "]";
-    }
-    
-    public static class GenderEnumDeserializer extends GeneralEnumDeserializer<GenderEnum> {
-
-        public GenderEnumDeserializer() {
-            super(GenderEnum.class);
-        }
-
     }
     
     public static void main(String[] args) {

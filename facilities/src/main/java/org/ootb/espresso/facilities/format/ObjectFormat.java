@@ -1,4 +1,4 @@
-package org.ootb.espresso.demo.service1.configuration.service;
+package org.ootb.espresso.facilities.format;
 
 import java.util.List;
 
@@ -9,4 +9,7 @@ public interface ObjectFormat {
     <T> List<T> fromJsonArray(String json, Class<T> type);
 
     <T> String toJson(T object);
+
+    <T> String toJsonPretty(T t);
+
 }

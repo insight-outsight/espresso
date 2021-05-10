@@ -2,6 +2,7 @@ package org.ootb.espresso.springcloud.infrastructure;
 
 import java.net.UnknownHostException;
 
+import org.ootb.espresso.springcloud.infrastructure.exception.OotbGlobalExceptionHandler;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty;
 import org.springframework.context.annotation.Bean;

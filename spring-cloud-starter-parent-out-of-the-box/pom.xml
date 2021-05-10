@@ -12,7 +12,15 @@
     <artifactId>spring-cloud-starter-parent-out-of-the-box</artifactId>
     <version>1.0.0-SNAPSHOT</version>
     <packaging>pom</packaging>
-
+    
+    <modules>
+        <module>spring-cloud-common</module>
+        <module>spring-cloud-demo-service-1</module>
+        <module>spring-cloud-infrastructure</module>
+        <module>spring-cloud-demo-embedded-kafka</module>
+        <module>spring-cloud-gateway</module>
+    </modules>
+    
     <properties>
         <java.version>1.8</java.version>
         <maven.compiler.source>${java.version}</maven.compiler.source>
@@ -167,9 +175,4 @@
             </plugin>
         </plugins>
     </build>
-    <modules>
-        <module>spring-cloud-common</module>
-        <module>spring-cloud-demo-service-1</module>
-        <module>spring-cloud-infrastructure</module>
-    </modules>
 </project>

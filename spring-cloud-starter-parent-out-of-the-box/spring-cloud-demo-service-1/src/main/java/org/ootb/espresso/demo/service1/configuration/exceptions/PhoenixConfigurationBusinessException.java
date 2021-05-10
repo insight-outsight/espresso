@@ -1,7 +1,7 @@
 package org.ootb.espresso.demo.service1.configuration.exceptions;
 
 import org.ootb.espresso.demo.service1.configuration.enums.ServerErrorEnum;
-import org.ootb.espresso.springcloud.infrastructure.OotbBusinessException;
+import org.ootb.espresso.springcloud.infrastructure.exception.OotbBusinessException;
 
 public class PhoenixConfigurationBusinessException extends OotbBusinessException {
 

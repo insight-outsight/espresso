@@ -17,7 +17,10 @@ import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.web.client.TestRestTemplate;
 import org.springframework.http.HttpEntity;
 import org.springframework.http.HttpHeaders;
+import org.springframework.http.ResponseEntity;
 import org.springframework.test.context.junit4.SpringRunner;
+
+import com.fasterxml.jackson.core.type.TypeReference;
 
 @RunWith(SpringRunner.class)
 @SpringBootTest(webEnvironment = RANDOM_PORT)
@@ -27,7 +30,7 @@ public class CustomJackson2Test {
     private TestRestTemplate restTemplate;
 
     @Test
-    public void ableToHandleCustomDateTime() {
+    public void ableToHandleCustomDateTimeAndEnum() {
         Date date = Date.from(LocalDateTime.of(2020, 4, 16, 23, 15, 2)
                 .toInstant(ZonedDateTime.now().getOffset()));
 
@@ -74,6 +77,32 @@ public class CustomJackson2Test {
 //System.out.println(JacksonJSONUtils.toJSON(dateTimeVO));
 //
 //        assertThat(dateTimeVO.getDate()).isEqualToIgnoringMillis(date);
+    }
+    
+    @Test
+    public void ableToHandleEnumInRequestParamAndPathVariable() {
+  
+//        int appId = 15;
+//        int gender = 23;
+//        ResponseEntity<Response> responseEntity = restTemplate.getForEntity("/oops-get/{appId}?gender={gender}", 
+//                Response.class, appId, gender );
+//        System.out.println("js444===" + JacksonJSONUtils.toJSON(responseEntity));
+//        assertThat(responseEntity.getStatusCode().value()).isEqualTo(200);
+//        CustomJackson2TestVO customJackson2TestVO = (CustomJackson2TestVO)responseEntity.getBody().getData();
+//        assertThat(customJackson2TestVO.getAppId()).isEqualTo(appId);
+//        assertThat(customJackson2TestVO.getAppId()).isEqualTo(gender);
+        
+        int appId = 15;
+        int gender = 23;
+        String responseEntityString = restTemplate.getForObject("/oops-get/{appId}?gender={gender}", 
+                String.class, appId, gender);
+        System.out.println("js444===" + responseEntityString);
+        Response<CustomJackson2TestVO> response = JacksonJSONUtils.fromJSON(responseEntityString, new TypeReference<Response<CustomJackson2TestVO>>() {});
+        assertThat(response.getCode()).isEqualTo(200);
+        CustomJackson2TestVO customJackson2TestVO = response.getData();
+        assertThat(customJackson2TestVO.getGender().getCode()).isEqualTo(gender);
+        assertThat(customJackson2TestVO.getAppId()).isEqualTo(appId);
+
     }
     
 //    @Test

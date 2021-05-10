@@ -1,14 +1,15 @@
-package org.ootb.espresso.demo.service1.configuration.service.impl;
+package org.ootb.espresso.facilities.format;
 
 import com.fasterxml.jackson.annotation.JsonInclude.Include;
+import com.fasterxml.jackson.core.JsonParser;
+import com.fasterxml.jackson.databind.DeserializationFeature;
+import com.fasterxml.jackson.databind.MapperFeature;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.fasterxml.jackson.databind.SerializationFeature;
 import com.fasterxml.jackson.databind.type.CollectionType;
-
 import java.io.IOException;
 import java.util.List;
 import java.util.function.BiFunction;
-
-import org.ootb.espresso.demo.service1.configuration.service.ObjectFormat;
 
 public class JacksonObjectFormat implements ObjectFormat {
 
@@ -25,6 +26,18 @@ public class JacksonObjectFormat implements ObjectFormat {
             BiFunction<String, IOException, Object> exceptionHandler) {
         this.exceptionHandler = exceptionHandler;
         objectMapper.setSerializationInclusion(Include.NON_NULL);
+
+        objectMapper.configure(MapperFeature.USE_ANNOTATIONS, true);
+        objectMapper.disable(SerializationFeature.FAIL_ON_EMPTY_BEANS);
+        objectMapper.enable(SerializationFeature.WRITE_ENUMS_USING_TO_STRING);
+        objectMapper.disable(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES);
+        objectMapper.enable(DeserializationFeature.ACCEPT_EMPTY_STRING_AS_NULL_OBJECT);
+        objectMapper.enable(DeserializationFeature.READ_ENUMS_USING_TO_STRING);
+
+        objectMapper.configure(JsonParser.Feature.ALLOW_COMMENTS, true);
+        objectMapper.configure(JsonParser.Feature.ALLOW_UNQUOTED_FIELD_NAMES, false);
+        objectMapper.configure(JsonParser.Feature.ALLOW_SINGLE_QUOTES, true);
+        objectMapper.configure(JsonParser.Feature.ALLOW_UNQUOTED_CONTROL_CHARS, true);
     }
 
     @Override
@@ -47,6 +60,7 @@ public class JacksonObjectFormat implements ObjectFormat {
         }
     }
 
+
     @Override
     public <T> String toJson(T object) {
         try {
@@ -55,6 +69,17 @@ public class JacksonObjectFormat implements ObjectFormat {
             return handleEx("Failed to serialize json: " + object, e);
         }
     }
+
+    @Override
+    public <T> String toJsonPretty(T t) {
+        try {
+            String jsonStr = objectMapper.writerWithDefaultPrettyPrinter().writeValueAsString(t);
+            return jsonStr;
+        }  catch (IOException e) {
+            return handleEx("Failed to serialize json pretty: " + t, e);
+        }
+    }
+
 
     private <T> T handleEx(String cause, IOException e) {
         return (T) exceptionHandler.apply(cause, e);
