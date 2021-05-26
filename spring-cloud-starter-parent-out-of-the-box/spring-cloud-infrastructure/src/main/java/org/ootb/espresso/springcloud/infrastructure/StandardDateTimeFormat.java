@@ -10,23 +10,25 @@ import java.util.Date;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-class LocalDateFormat extends DateFormat {
+class StandardDateTimeFormat extends DateFormat {
+
     /**
      * 
      */
-    private static final long serialVersionUID = 1505083473625481538L;
+    private static final long serialVersionUID = -399717153036522048L;
 
-    private static final Logger LOG = LoggerFactory.getLogger(MethodHandles.lookup().lookupClass());
+    private final Logger logger = LoggerFactory.getLogger(MethodHandles.lookup().lookupClass());
 
     private final String pattern;
     private final DateFormat dateFormat;
+    // ?? SimpleDateFormat is not thread-safe
     private final SimpleDateFormat dateTimeFormatter;
 
-    LocalDateFormat(DateFormat dateFormat, String pattern) {
+    StandardDateTimeFormat(DateFormat dateFormat, String pattern) {
         this.dateFormat = dateFormat;
         this.dateTimeFormatter = new SimpleDateFormat(pattern);
         this.pattern = pattern;
-        LOG.info("Using datetime pattern {} for serialization/deserialization", pattern);
+        logger.info("enabled dateFormatter pattern '{}' for serialization/deserialization", pattern);
     }
 
     @Override
@@ -54,6 +56,6 @@ class LocalDateFormat extends DateFormat {
 
     @Override
     public Object clone() {
-        return new LocalDateFormat((DateFormat) dateFormat.clone(), pattern);
+        return new StandardDateTimeFormat((DateFormat) dateFormat.clone(), pattern);
     }
 }

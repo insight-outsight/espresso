@@ -2,8 +2,6 @@ package org.ootb.espresso.springcloud.infrastructure;
 
 import java.util.Date;
 
-import org.ootb.espresso.springcloud.infrastructure.enums.AppIdEnum;
-import org.ootb.espresso.springcloud.infrastructure.enums.GenderEnum;
 
 
 public class CustomJackson2TestVO {

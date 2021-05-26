@@ -2,11 +2,10 @@ package org.ootb.espresso.springcloud.infrastructure;
 
 import java.lang.invoke.MethodHandles;
 
-import org.ootb.espresso.springcloud.infrastructure.enums.AppIdEnum;
-import org.ootb.espresso.springcloud.infrastructure.enums.GenderEnum;
 import org.ootb.espresso.springcloud.infrastructure.exception.OotbResourceNotFoundException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -17,8 +16,11 @@ import org.springframework.web.bind.annotation.RestController;
 @RestController
 public class OopsController {
 
-    private static final Logger LOG = LoggerFactory.getLogger(MethodHandles.lookup().lookupClass());
+    private final Logger logger = LoggerFactory.getLogger(MethodHandles.lookup().lookupClass());
 
+    @Autowired
+    private OopsServiceImpl ooopsServiceImpl;
+    
     @GetMapping("/oops")
     public String oops() {
         throw new OotbResourceNotFoundException("oops");
@@ -36,9 +38,9 @@ public class OopsController {
 
     @PostMapping("/datetime")
     public CustomJackson2TestVO datetime(@RequestBody CustomJackson2TestVO dateTimeVO) {
-        LOG.debug("name: {}", dateTimeVO.getName());
-        LOG.debug("date: {}", dateTimeVO.getDate());
-        LOG.debug("gender: {}", dateTimeVO.getGender());
+        logger.debug("name: {}", dateTimeVO.getName());
+        logger.debug("date: {}", dateTimeVO.getDate());
+        logger.debug("gender: {}", dateTimeVO.getGender());
         return dateTimeVO;
     }
     
@@ -47,11 +49,22 @@ public class OopsController {
             @PathVariable("appId") AppIdEnum appId,
             @RequestParam(value = "gender") GenderEnum gender) {
 
-        LOG.info("controller getSomething request, appId:{}, gender:{}",
+        logger.info("controller getSomething request, appId:{}, gender:{}",
                 appId, gender);
 
         return Response.ok(new CustomJackson2TestVO(appId, gender));
 
     }
 
+    @GetMapping(value = "/mdc/test/{appId}")
+    public Response<String> mdcTest(
+            @PathVariable("appId") AppIdEnum appId,
+            @RequestParam(value = "gender") GenderEnum gender) {
+
+        logger.info("controller mdc test, appId:{}, gender:{}", appId, gender);
+        ooopsServiceImpl.say("hello hello");
+        return Response.ok("abc");
+
+    }
+    
 }

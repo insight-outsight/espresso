@@ -2,6 +2,7 @@ package org.ootb.espresso.springcloud.infrastructure.enums;
 
 import com.google.common.collect.Maps;
 
+import org.ootb.espresso.facilities.enums.GeneralEnumInterface;
 import org.springframework.core.convert.converter.Converter;
 
 import java.util.Map;

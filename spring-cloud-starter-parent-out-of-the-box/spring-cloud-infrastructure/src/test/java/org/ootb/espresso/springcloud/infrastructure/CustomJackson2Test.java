@@ -12,6 +12,7 @@ import java.util.Date;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.ootb.espresso.facilities.JacksonJSONUtils;
+import org.slf4j.MDC;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.web.client.TestRestTemplate;
@@ -29,6 +30,17 @@ public class CustomJackson2Test {
     @Autowired
     private TestRestTemplate restTemplate;
 
+
+    @Test
+    public void ableToPrintMDCLog() {
+
+        int appId = 17;
+        int gender = 45;
+        String responseEntityString = restTemplate.getForObject("/mdc/test/{appId}?gender={gender}", 
+                String.class, appId, gender);
+        System.out.println("js555===" + responseEntityString);
+    }
+    
     @Test
     public void ableToHandleCustomDateTimeAndEnum() {
         Date date = Date.from(LocalDateTime.of(2020, 4, 16, 23, 15, 2)

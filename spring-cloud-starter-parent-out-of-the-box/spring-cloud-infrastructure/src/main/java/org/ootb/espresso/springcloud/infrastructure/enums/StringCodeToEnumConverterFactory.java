@@ -1,11 +1,12 @@
 package org.ootb.espresso.springcloud.infrastructure.enums;
 
-import com.google.common.collect.Maps;
+import java.util.Map;
 
+import org.ootb.espresso.facilities.enums.GeneralEnumInterface;
 import org.springframework.core.convert.converter.Converter;
 import org.springframework.core.convert.converter.ConverterFactory;
 
-import java.util.Map;
+import com.google.common.collect.Maps;
 
 public class StringCodeToEnumConverterFactory implements ConverterFactory<String, GeneralEnumInterface> {
 
@@ -16,7 +17,7 @@ public class StringCodeToEnumConverterFactory implements ConverterFactory<String
         Converter<String, T> converter = CONVERTERS.get(targetType);
         if (converter == null) {
             converter = new StringCodeToEnumConverter<>(targetType);
-            Converter previousConverter = CONVERTERS.putIfAbsent(targetType, converter);
+            Converter<String, T> previousConverter = CONVERTERS.putIfAbsent(targetType, converter);
             if (previousConverter != null) {
                 return previousConverter;
             }

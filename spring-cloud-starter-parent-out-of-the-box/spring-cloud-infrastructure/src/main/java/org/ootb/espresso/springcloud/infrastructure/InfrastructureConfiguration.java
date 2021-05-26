@@ -17,7 +17,7 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 @Import(OotbGlobalExceptionHandler.class)
 class InfrastructureConfiguration {
 
-    @ConditionalOnProperty(value = "ootb.identifier.snowflake.enabled", matchIfMissing = true)
+    @ConditionalOnProperty(value = "ootb.identifier.generator.enabled", matchIfMissing = true)
     @Bean
     IpBasedSnowflakeIdGenerator ipBasedSnowflakeIdGenerator() throws UnknownHostException {
         return new IpBasedSnowflakeIdGenerator();
@@ -46,15 +46,14 @@ class InfrastructureConfiguration {
 //        });
 //    }
 
-    @ConditionalOnProperty(value = "ootb.web.json.datetime.enabled")
+    @ConditionalOnProperty(value = "ootb.webmvc.json.datetimeformatter.enabled")
     @Bean
     MappingJackson2HttpMessageConverter localDatetimeHttpMessageConverter(
-            @Value("${ootb.web.json.datetime.pattern:yyyy-MM-dd HH:mm:ss}") String pattern,
+            @Value("${ootb.webmvc.json.datetimeformatter.pattern:yyyy-MM-dd HH:mm:ss}") String pattern,
             Jackson2ObjectMapperBuilder mapperBuilder) {
 
         ObjectMapper mapper = mapperBuilder.build();
-        // ?? LocalDateFormat based on SimpleDateFormat is not thread-safe
-        mapper.setDateFormat(new LocalDateFormat(mapper.getDateFormat(), pattern));
+        mapper.setDateFormat(new StandardDateTimeFormat(mapper.getDateFormat(), pattern));
 
         return new MappingJackson2HttpMessageConverter(mapper);
     }

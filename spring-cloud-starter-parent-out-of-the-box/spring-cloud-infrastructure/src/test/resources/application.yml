@@ -1,2 +1,2 @@
-ootb.web.json.datetime.enabled: true
-ootb.web.json.datetime.pattern: "yyyy-MM-dd HH:mm:ss"
+ootb.webmvc.json.datetimeformatter.enabled: true
+ootb.webmvc.json.datetimeformatter.pattern: "yyyy-MM-dd HH:mm:ss"
